@@ -3,6 +3,9 @@ import 'addContact.dart';
 import 'contactList.dart';
 import 'createCategory.dart';
 
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});
 
@@ -12,36 +15,24 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          SizedBox(height: 100,),
-          ListTile(
-            leading: const Icon(Icons.contact_page),
-            title: const Text('Contacts'),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => ContactListPage()),
-              );
-            },
+          const DrawerHeader(
+            decoration: BoxDecoration(color: Colors.blue),
+            child: Text('Menu', style: TextStyle(color: Colors.white, fontSize: 24)),
           ),
           ListTile(
-            leading: const Icon(Icons.add),
-            title: const Text('Add Contact'),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => UserFormPage()),
-              );
-            },
+            leading: const Icon(Icons.home),
+            title: const Text('Add Category'),
+            onTap: () => Get.off(() => CategoryPage()),
           ),
           ListTile(
             leading: const Icon(Icons.category),
-            title: const Text('Manage Categories'),
-            onTap: () {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(builder: (_) => CategoryPage()),
-              );
-            },
+            title: const Text('Add Contacts'),
+            onTap: () => Get.off(() => UserFormPage()),
+          ),
+          ListTile(
+            leading: const Icon(Icons.contacts),
+            title: const Text('Contact List'),
+            onTap: () => Get.off(() => ContactListPage()),
           ),
         ],
       ),

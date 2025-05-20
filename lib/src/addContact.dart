@@ -8,11 +8,6 @@ class UserFormPage extends StatelessWidget {
 
   UserFormPage({super.key});
 
-  InputDecoration _inputDecoration(String label) => InputDecoration(
-    labelText: label,
-    border: const OutlineInputBorder(),
-  );
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,4 +84,10 @@ class UserFormPage extends StatelessWidget {
       ),
     );
   }
+
+  InputDecoration _inputDecoration(String label) => InputDecoration(
+    labelText: label,
+    border: const OutlineInputBorder(),
+  );
+
 }
