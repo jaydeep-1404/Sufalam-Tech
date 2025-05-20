@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sufalam/src/contactList.dart';
 import '../db/sql_service.dart';
 import '../models/category.dart';
 import '../models/contacts.dart';
@@ -110,6 +111,7 @@ class UserFormController extends GetxController {
       selectedImage.value = null;
       selectedCategory.value = '';
       selectedCategoryId.value = 0;
+      Get.off(ContactListPage());
     }
   }
 }
