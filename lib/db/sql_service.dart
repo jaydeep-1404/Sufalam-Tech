@@ -1,7 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
-
-import '../models/categoryModel.dart';
+import '../models/category.dart';
+import '../models/contacts.dart';
 
 class DatabaseHelper {
   static final DatabaseHelper _instance = DatabaseHelper._internal();
@@ -10,7 +10,6 @@ class DatabaseHelper {
 
   static Database? _db;
 
-  // Table names
   static const String categoryTable = 'category';
   static const String contactTable = 'contacts';
 
@@ -26,7 +25,7 @@ class DatabaseHelper {
       path,
       version: 1,
       onCreate: (db, version) async {
-        // Category table
+        /// Category table
         await db.execute('''
           CREATE TABLE $categoryTable (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,7 +33,7 @@ class DatabaseHelper {
           )
         ''');
 
-        // Contact table
+        /// Contact table
         await db.execute('''
           CREATE TABLE $contactTable (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -52,8 +51,7 @@ class DatabaseHelper {
     );
   }
 
-  // ================= CATEGORY METHODS =================
-
+ /// Category
   Future<int> insertCategory(CategoryModel category) async {
     final db = await database;
     return await db.insert(categoryTable, category.toMap());
@@ -84,8 +82,8 @@ class DatabaseHelper {
     );
   }
 
-  // ================= CONTACT METHODS =================
 
+  /// Contacts
   Future<int> insertContact(ContactModel contact) async {
     final db = await database;
     return await db.insert(contactTable, contact.toMap());

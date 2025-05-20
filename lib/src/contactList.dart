@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:sufalam/models/categoryModel.dart' show ContactModel;
+import 'package:sufalam/models/contacts.dart' show ContactModel;
 
 import '../db/sql_service.dart';
 import 'drawer.dart';

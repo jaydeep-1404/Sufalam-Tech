@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../db/sql_service.dart';
-import '../models/categoryModel.dart';
+import '../models/category.dart';
+import '../models/contacts.dart';
 
 
 class UserFormController extends GetxController {
