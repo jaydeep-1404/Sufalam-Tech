@@ -1,14 +1,11 @@
 import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:sufalam/models/contacts.dart' show ContactModel;
-
 import '../db/sql_service.dart';
 import 'drawer.dart';
 
 class ContactListPage extends StatefulWidget {
-  const ContactListPage({Key? key}) : super(key: key);
+  const ContactListPage({super.key});
 
   @override
   State<ContactListPage> createState() => _ContactListPageState();

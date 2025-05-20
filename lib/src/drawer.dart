@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'addContact.dart';
 import 'contactList.dart';
 import 'createCategory.dart';
@@ -13,10 +12,7 @@ class CustomDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(color: Colors.blue),
-            child: Text('Menu', style: TextStyle(color: Colors.white, fontSize: 24)),
-          ),
+          SizedBox(height: 100,),
           ListTile(
             leading: const Icon(Icons.contact_page),
             title: const Text('Contacts'),

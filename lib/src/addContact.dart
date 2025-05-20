@@ -6,6 +6,8 @@ import 'drawer.dart';
 class UserFormPage extends StatelessWidget {
   final controller = Get.put(UserFormController());
 
+  UserFormPage({super.key});
+
   InputDecoration _inputDecoration(String label) => InputDecoration(
     labelText: label,
     border: const OutlineInputBorder(),

@@ -6,6 +6,8 @@ import 'drawer.dart';
 class CategoryPage extends StatelessWidget {
   final vm = Get.put(CategoryViewModel());
 
+  CategoryPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
