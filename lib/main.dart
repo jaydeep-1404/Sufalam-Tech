@@ -1,11 +1,11 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:sufalam/src/addContact.dart';
 import 'package:sufalam/src/contactList.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runZonedGuarded(() => runApp(const MyApp()), (e, s) => log("$e, $s"),);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});

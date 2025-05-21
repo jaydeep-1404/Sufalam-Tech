@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../db/sql_service.dart';
 import '../models/category.dart';
+import '../utils/database.dart';
 
 class CategoryViewModel extends GetxController {
   final categories = <CategoryModel>[].obs;

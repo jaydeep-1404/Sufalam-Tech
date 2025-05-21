@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sufalam/src/commonWidgets/common.dart';
 import '../controllers/contacts.dart';
 import 'addContact.dart';
 import 'drawer.dart';
 
 class ContactListPage extends StatefulWidget {
-  ContactListPage({super.key});
+  const ContactListPage({super.key});
 
   @override
   State<ContactListPage> createState() => _ContactListPageState();
@@ -97,7 +98,7 @@ class _ContactListPageState extends State<ContactListPage> {
       drawer: const CustomDrawer(),
       body: Obx(() {
         if (controller.isLoading.value) {
-          return const Center(child: CircularProgressIndicator());
+          return const DataLoader();
         } else if (controller.filteredContacts.isEmpty) {
           return const Center(child: Text("No contacts found"));
         } else {
@@ -111,7 +112,7 @@ class _ContactListPageState extends State<ContactListPage> {
                 leading: CircleAvatar(
                   backgroundImage: img != null && img.isNotEmpty
                       ? MemoryImage(base64Decode(img))
-                      : const AssetImage('assets/default_user.png')
+                      : const AssetImage('https://cdn-icons-png.flaticon.com/512/149/149071.png')
                   as ImageProvider,
                 ),
                 title: Text("${contact.firstName} ${contact.lastName}"),

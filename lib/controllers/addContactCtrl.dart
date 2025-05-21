@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sufalam/controllers/contacts.dart';
 import 'package:sufalam/src/contactList.dart';
-import '../db/sql_service.dart';
 import '../models/category.dart';
 import '../models/contacts.dart';
+import '../utils/database.dart';
 
 
 class UserFormController extends GetxController {

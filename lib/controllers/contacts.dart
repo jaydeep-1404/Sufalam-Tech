@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
-
-import '../db/sql_service.dart';
 import '../models/contacts.dart';
+import '../utils/database.dart';
 
 class ContactController extends GetxController {
   final DatabaseHelper _dbHelper = DatabaseHelper();

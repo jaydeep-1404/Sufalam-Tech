@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/createCategoryCtrl.dart';
+import 'commonWidgets/common.dart';
 import 'drawer.dart';
 
 class CreateCategoryPage extends StatelessWidget {
@@ -101,7 +102,7 @@ class CreateCategoryPage extends StatelessWidget {
         itemCount: vm.categories.length,
         itemBuilder: (context, index) {
           final category = vm.categories[index];
-          return _categoryItem(
+          return CategoryItems(
             name: category.name,
             onEdit: () => vm.editCategory(index),
             onDelete: () => vm.deleteCategory(index),
@@ -110,34 +111,5 @@ class CreateCategoryPage extends StatelessWidget {
       );
     }),
   );
-
-  Widget _categoryItem({
-    required String name,
-    void Function()? onEdit,
-    void Function()? onDelete,
-  }){
-    return Card(
-      elevation: 0.1,
-      child: ListTile(
-        title: Text(name),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const VerticalDivider(indent: 10,endIndent: 10,),
-            IconButton(
-              icon: const Icon(Icons.edit, color: Colors.black),
-              onPressed: onEdit,
-            ),
-            const VerticalDivider(indent: 10,endIndent: 10,),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.redAccent),
-              onPressed: onDelete,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
 
 }
