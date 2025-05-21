@@ -15,6 +15,7 @@ class CreateCategoryPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
+        elevation: 0,
         title: const Text('Category Category'),
       ),
       drawer: const CustomDrawer(),

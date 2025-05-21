@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
+import 'package:image_picker/image_picker.dart';
 import 'package:sufalam/utils/consts.dart';
 import '../controllers/addContactCtrl.dart';
 import '../models/contacts.dart';
@@ -33,6 +34,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
       drawer: const CustomDrawer(),
       appBar: AppBar(
         centerTitle: false,
+        elevation: 0,
         title: Text(ctrl.isEditMode.value ? 'Edit Contact' : 'Add Contact'),
       ),
       body: Form(
@@ -42,7 +44,31 @@ class _CreateContactPageState extends State<CreateContactPage> {
           child: Column(
             children: [
               Obx(() => GestureDetector(
-                onTap: () => ctrl.showImagePickerOptions(context),
+                // onTap: () => ctrl.showImagePickerOptions(context),
+                onTap: () => showModalBottomSheet(
+                  context: context,
+                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+                  builder: (_) => Wrap(
+                    children: [
+                      ListTile(
+                        leading: const Icon(Icons.camera_alt),
+                        title: const Text('Camera'),
+                        onTap: () {
+                          Get.back();
+                          ctrl.pickImage(ImageSource.camera);
+                        },
+                      ),
+                      ListTile(
+                        leading: const Icon(Icons.photo_library),
+                        title: const Text('Gallery'),
+                        onTap: () {
+                          Get.back();
+                          ctrl.pickImage(ImageSource.gallery);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
                   child: CircleAvatar(
                     radius: Platform.isAndroid ? 60 : 70,
                     backgroundImage: ctrl.selectedImage.value != null

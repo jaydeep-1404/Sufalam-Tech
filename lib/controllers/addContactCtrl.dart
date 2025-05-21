@@ -69,33 +69,6 @@ class UserFormController extends GetxController {
     }
   }
 
-  void showImagePickerOptions(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
-      builder: (_) => Wrap(
-        children: [
-          ListTile(
-            leading: const Icon(Icons.camera_alt),
-            title: const Text('Camera'),
-            onTap: () {
-              Get.back();
-              pickImage(ImageSource.camera);
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.photo_library),
-            title: const Text('Gallery'),
-            onTap: () {
-              Get.back();
-              pickImage(ImageSource.gallery);
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
   void submitForm() async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
