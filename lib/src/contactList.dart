@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:sufalam/src/commonWidgets/common.dart';
+import 'package:sufalam/src/commonWidgets/snackbars.dart';
 import '../controllers/contacts.dart';
 import 'addContact.dart';
 import 'drawer.dart';
@@ -94,7 +95,9 @@ class _ContactListPageState extends State<ContactListPage> {
                         const VerticalDivider(),
                         IconButton(
                           icon: const Icon(Icons.delete, color: Colors.redAccent),
-                          onPressed: () => controller.deleteContact(contact.id!),
+                          onPressed: () {
+                            controller.deleteContact(contact.id!);
+                          },
                         ),
                       ],
                     ),
@@ -174,4 +177,3 @@ class _ContactListPageState extends State<ContactListPage> {
     );
   }
 }
-

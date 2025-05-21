@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sufalam/src/commonWidgets/snackbars.dart';
 import '../models/contacts.dart';
 import '../utils/database.dart';
 
@@ -39,6 +40,7 @@ class ContactController extends GetxController {
 
   Future<void> deleteContact(int id) async {
     await _dbHelper.deleteContact(id);
+    AppSnackbar.delete(title: "Removed",message: "Contact Deleted Successfully");
     loadContacts();
   }
 }

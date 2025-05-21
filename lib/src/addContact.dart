@@ -42,46 +42,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
-              Obx(() => GestureDetector(
-                  onTap: () => showModalBottomSheet(
-                    context: context,
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
-                    ),
-                    builder: (_) => Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          _imageOption(
-                            icon: Icons.camera_alt,
-                            label: 'Camera',
-                            onTap: () {
-                              Get.back();
-                              ctrl.pickImage(ImageSource.camera);
-                            },
-                          ),
-                          _imageOption(
-                            icon: Icons.photo_library,
-                            label: 'Gallery',
-                            onTap: () {
-                              Get.back();
-                              ctrl.pickImage(ImageSource.gallery);
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  child: CircleAvatar(
-                    radius: Platform.isAndroid ? 60 : 70,
-                    backgroundImage: ctrl.selectedImage.value != null
-                        ? FileImage(ctrl.selectedImage.value!)
-                        : (widget.contact != null && ctrl.imageBase64.value.isNotEmpty
-                        ? MemoryImage(base64Decode(ctrl.imageBase64.value))
-                        : const NetworkImage("https://cdn-icons-png.flaticon.com/512/149/149071.png")) as ImageProvider,
-                  )
-              )),
+              _selectImage(),
               const SizedBox(height: 16),
               TextFormField(
                 decoration: _inputDecoration('First Name'),
@@ -144,6 +105,47 @@ class _CreateContactPageState extends State<CreateContactPage> {
       ),
     );
   }
+
+  Widget _selectImage() => Obx(() => GestureDetector(
+      onTap: () => showModalBottomSheet(
+        context: context,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        ),
+        builder: (_) => Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              _imageOption(
+                icon: Icons.camera_alt,
+                label: 'Camera',
+                onTap: () {
+                  Get.back();
+                  ctrl.pickImage(ImageSource.camera);
+                },
+              ),
+              _imageOption(
+                icon: Icons.photo_library,
+                label: 'Gallery',
+                onTap: () {
+                  Get.back();
+                  ctrl.pickImage(ImageSource.gallery);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+      child: CircleAvatar(
+        radius: Platform.isAndroid ? 60 : 70,
+        backgroundImage: ctrl.selectedImage.value != null
+            ? FileImage(ctrl.selectedImage.value!)
+            : (widget.contact != null && ctrl.imageBase64.value.isNotEmpty
+            ? MemoryImage(base64Decode(ctrl.imageBase64.value))
+            : const NetworkImage("https://cdn-icons-png.flaticon.com/512/149/149071.png")) as ImageProvider,
+      )
+  ));
 
   InputDecoration _inputDecoration(String label) => InputDecoration(
     labelText: label,
