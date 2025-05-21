@@ -73,6 +73,8 @@ class UserFormController extends GetxController {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
+
+
       String? base64Image = imageBase64.value;
       if (selectedImage.value != null) {
         final bytes = await selectedImage.value!.readAsBytes();
@@ -98,9 +100,11 @@ class UserFormController extends GetxController {
         Get.snackbar("Success", "Contact Saved");
       }
 
+      print(selectedCategoryId.value);
+      print(selectedCategory.value);
       clearForm();
       Get.put(ContactController()).loadContacts();
-      Get.off(ContactListPage());
+      // Get.off(ContactListPage());
     }
   }
 }

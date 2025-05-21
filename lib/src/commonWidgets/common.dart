@@ -61,30 +61,33 @@ class CategoryItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 0.1,
-      child: ListTile(
-        title: Text(
-          name,
-          style: GoogleFonts.poppins(
-            fontSize: 16,
-            color: Colors.grey[700],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10),
+      child: Card(
+        elevation: 0.1,
+        child: ListTile(
+          title: Text(
+            name,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              color: Colors.grey[700],
+            ),
           ),
-        ),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const VerticalDivider(indent: 10, endIndent: 10),
-            IconButton(
-              icon: const Icon(Icons.edit, color: Colors.black),
-              onPressed: onEdit,
-            ),
-            const VerticalDivider(indent: 10, endIndent: 10),
-            IconButton(
-              icon: const Icon(Icons.delete, color: Colors.redAccent),
-              onPressed: onDelete,
-            ),
-          ],
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const VerticalDivider(indent: 10, endIndent: 10),
+              IconButton(
+                icon: const Icon(Icons.edit, color: Colors.black),
+                onPressed: onEdit,
+              ),
+              const VerticalDivider(indent: 10, endIndent: 10),
+              IconButton(
+                icon: const Icon(Icons.delete, color: Colors.redAccent),
+                onPressed: onDelete,
+              ),
+            ],
+          ),
         ),
       ),
     );

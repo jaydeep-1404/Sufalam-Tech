@@ -44,7 +44,6 @@ class _CreateContactPageState extends State<CreateContactPage> {
           child: Column(
             children: [
               Obx(() => GestureDetector(
-                // onTap: () => ctrl.showImagePickerOptions(context),
                 onTap: () => showModalBottomSheet(
                   context: context,
                   shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),

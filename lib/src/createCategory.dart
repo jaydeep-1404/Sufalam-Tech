@@ -19,54 +19,52 @@ class CreateCategoryPage extends StatelessWidget {
         title: const Text('Category Category'),
       ),
       drawer: const CustomDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _createFieldAndButton(),
-            const SizedBox(height: 10),
-            _editItemView(),
-            const SizedBox(height: 20),
-            _categories(),
-          ],
-        ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _createFieldAndButton(),
+          _editItemView(),
+          _categories(),
+        ],
       ),
     );
   }
 
-  Widget _createFieldAndButton() => Form(
-    key: vm.formKey,
-    child: Row(
-      children: [
-        Expanded(
-          child: TextFormField(
-            controller: vm.textController,
-            style: GoogleFonts.poppins(
-              fontSize: 17,
-              fontWeight: FontWeight.w500,
-            ),
-            decoration: InputDecoration(
-              labelText: 'Category name',
-              labelStyle: GoogleFonts.poppins(
-                fontSize: 16,
-                color: Colors.grey[700],
+  Widget _createFieldAndButton() => Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+    child: Form(
+      key: vm.formKey,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextFormField(
+              controller: vm.textController,
+              style: GoogleFonts.poppins(
+                fontSize: 17,
+                fontWeight: FontWeight.w500,
               ),
-              border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                labelText: 'Category name',
+                labelStyle: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.grey[700],
+                ),
+                border: OutlineInputBorder(),
+              ),
+              validator: (value) =>
+              value == null || value.trim().isEmpty ? 'Enter name' : null,
             ),
-            validator: (value) =>
-            value == null || value.trim().isEmpty ? 'Enter name' : null,
           ),
-        ),
-        const SizedBox(width: 12),
-        Obx(() {
-          final isEditing = vm.editingIndex.value != null;
-          return ElevatedButton(
-            onPressed: vm.saveCategory,
-            child: Text(isEditing ? 'Update' : 'Add'),
-          );
-        }),
-      ],
+          const SizedBox(width: 12),
+          Obx(() {
+            final isEditing = vm.editingIndex.value != null;
+            return ElevatedButton(
+              onPressed: vm.saveCategory,
+              child: Text(isEditing ? 'Update' : 'Add'),
+            );
+          }),
+        ],
+      ),
     ),
   );
 
@@ -74,8 +72,8 @@ class CreateCategoryPage extends StatelessWidget {
     if (vm.editingIndex.value != null) {
       final selected = vm.categories[vm.editingIndex.value!];
       return Container(
-        margin: const EdgeInsets.only(bottom: 8),
-        padding: const EdgeInsets.all(8),
+        margin: const EdgeInsets.only(bottom: 8,left: 10,right: 10),
+        padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 10),
         decoration: BoxDecoration(
           color: Colors.blue.shade50,
           borderRadius: BorderRadius.circular(8),
@@ -110,7 +108,7 @@ class CreateCategoryPage extends StatelessWidget {
       if (vm.categories.isEmpty) return const EmptyData(message: "No Category Found",);
       return ListView.builder(
         itemCount: vm.categories.length,
-        itemBuilder: (context, index) {
+        itemBuilder: (_, index) {
           final category = vm.categories[index];
           return CategoryItems(
             name: category.name,
