@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sufalam/controllers/contacts.dart';
 import 'package:sufalam/src/contactList.dart';
 import '../db/sql_service.dart';
 import '../models/category.dart';
@@ -11,24 +12,48 @@ import '../models/contacts.dart';
 
 class UserFormController extends GetxController {
   final formKey = GlobalKey<FormState>();
+  final dbHelper = DatabaseHelper();
 
   final firstName = ''.obs;
   final lastName = ''.obs;
-  final mobile = ''.obs;
   final email = ''.obs;
+  final mobile = ''.obs;
   final selectedCategory = ''.obs;
   final selectedCategoryId = 0.obs;
 
-  final Rx<File?> selectedImage = Rx<File?>(null);
-  final demoImageUrl = 'https://cdn-icons-png.flaticon.com/512/149/149071.png';
+  final selectedImage = Rx<File?>(null);
+  final imageBase64 = ''.obs;
 
   final categories = <CategoryModel>[].obs;
-  final dbHelper = DatabaseHelper();
 
-  @override
-  void onInit() {
-    super.onInit();
-    loadCategories();
+  final isEditMode = false.obs;
+  ContactModel? editingContact;
+
+  void setEditingContact(ContactModel contact) {
+    isEditMode.value = true;
+    editingContact = contact;
+
+    firstName.value = contact.firstName;
+    lastName.value = contact.lastName;
+    email.value = contact.email ?? '';
+    mobile.value = contact.phoneNo;
+    selectedCategory.value = contact.categoryName;
+    selectedCategoryId.value = contact.categoryId;
+    imageBase64.value = contact.imageBase64 ?? '';
+  }
+
+  void clearForm() {
+    formKey.currentState?.reset();
+    firstName.value = '';
+    lastName.value = '';
+    email.value = '';
+    mobile.value = '';
+    selectedCategory.value = '';
+    selectedCategoryId.value = 0;
+    selectedImage.value = null;
+    imageBase64.value = '';
+    isEditMode.value = false;
+    editingContact = null;
   }
 
   Future<void> loadCategories() async {
@@ -47,70 +72,61 @@ class UserFormController extends GetxController {
   void showImagePickerOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
+      builder: (_) => Wrap(
+        children: [
+          ListTile(
+            leading: const Icon(Icons.camera_alt),
+            title: const Text('Camera'),
+            onTap: () {
+              Get.back();
+              pickImage(ImageSource.camera);
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.photo_library),
+            title: const Text('Gallery'),
+            onTap: () {
+              Get.back();
+              pickImage(ImageSource.gallery);
+            },
+          ),
+        ],
       ),
-      builder: (_) {
-        return Wrap(
-          children: [
-            ListTile(
-              leading: const Icon(Icons.camera_alt),
-              title: const Text('Capture from Camera'),
-              onTap: () {
-                Get.back();
-                pickImage(ImageSource.camera);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.photo_library),
-              title: const Text('Select from Gallery'),
-              onTap: () {
-                Get.back();
-                pickImage(ImageSource.gallery);
-              },
-            ),
-          ],
-        );
-      },
     );
   }
-
-  void clearImage() => selectedImage.value = null;
 
   void submitForm() async {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      String? imageBase64;
+      String? base64Image = imageBase64.value;
       if (selectedImage.value != null) {
         final bytes = await selectedImage.value!.readAsBytes();
-        imageBase64 = base64Encode(bytes);
+        base64Image = base64Encode(bytes);
       }
 
       final contact = ContactModel(
+        id: editingContact?.id,
         firstName: firstName.value,
         lastName: lastName.value,
         email: email.value,
         phoneNo: mobile.value,
-        imageBase64: imageBase64,
         categoryId: selectedCategoryId.value,
         categoryName: selectedCategory.value,
+        imageBase64: base64Image,
       );
 
-      await dbHelper.insertContact(contact);
+      if (isEditMode.value && contact.id != null) {
+        await dbHelper.updateContact(contact);
+        Get.snackbar("Success", "Contact Updated");
+      } else {
+        await dbHelper.insertContact(contact);
+        Get.snackbar("Success", "Contact Saved");
+      }
 
-      Get.snackbar(
-        'Success',
-        'Contact Saved Successfully',
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green.shade100,
-        colorText: Colors.black,
-      );
-
-      formKey.currentState!.reset();
-      selectedImage.value = null;
-      selectedCategory.value = '';
-      selectedCategoryId.value = 0;
+      clearForm();
+      Get.put(ContactController()).loadContacts();
       Get.off(ContactListPage());
     }
   }

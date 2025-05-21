@@ -121,7 +121,9 @@ class _ContactListPageState extends State<ContactListPage> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(() => CreateContactPage(contact: contact));
+                      },
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),

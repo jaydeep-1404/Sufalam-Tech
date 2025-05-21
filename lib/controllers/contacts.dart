@@ -10,12 +10,6 @@ class ContactController extends GetxController {
   var filteredContacts = <ContactModel>[].obs;
   var isLoading = true.obs;
 
-  @override
-  void onInit() {
-    loadContacts();
-    super.onInit();
-  }
-
   void loadContacts() async {
     isLoading.value = true;
     final data = await _dbHelper.getContacts();
