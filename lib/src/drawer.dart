@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sufalam/utils/routes.dart';
 import 'addContact.dart';
 import 'contactList.dart';
 import 'createCategory.dart';
@@ -20,19 +21,19 @@ class CustomDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.home),
             title: const Text('Add Category'),
-            onTap: () => Get.offAll(() => CreateCategoryPage()),
+            onTap: () => Get.offAllNamed(ConstRoute.categoryCreate),
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.category),
             title: const Text('Add Contacts'),
-            onTap: () => Get.offAll(() => CreateContactPage()),
+            onTap: () => Get.offAllNamed(ConstRoute.contactCreate),
           ),
           const Divider(),
           ListTile(
             leading: const Icon(Icons.contacts),
             title: const Text('Contact List'),
-            onTap: () => Get.offAll(() => ContactListPage()),
+            onTap: () => Get.offAllNamed(ConstRoute.contacts),
           ),
           const Divider(),
         ],
