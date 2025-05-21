@@ -62,7 +62,13 @@ class CategoryItems extends StatelessWidget {
     return Card(
       elevation: 0.1,
       child: ListTile(
-        title: Text(name),
+        title: Text(
+          name,
+          style: GoogleFonts.poppins(
+            fontSize: 16,
+            color: Colors.grey[700],
+          ),
+        ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -83,11 +89,3 @@ class CategoryItems extends StatelessWidget {
   }
 }
 
-class ContactItem extends StatelessWidget {
-  const ContactItem({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const Placeholder();
-  }
-}

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import '../controllers/createCategoryCtrl.dart';
 import 'commonWidgets/common.dart';
 import 'drawer.dart';
@@ -40,8 +41,16 @@ class CreateCategoryPage extends StatelessWidget {
         Expanded(
           child: TextFormField(
             controller: vm.textController,
-            decoration: const InputDecoration(
+            style: GoogleFonts.poppins(
+              fontSize: 17,
+              fontWeight: FontWeight.w500,
+            ),
+            decoration: InputDecoration(
               labelText: 'Category name',
+              labelStyle: GoogleFonts.poppins(
+                fontSize: 16,
+                color: Colors.grey[700],
+              ),
               border: OutlineInputBorder(),
             ),
             validator: (value) =>

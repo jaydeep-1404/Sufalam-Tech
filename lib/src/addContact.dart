@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:sufalam/utils/consts.dart';
 import '../controllers/addContactCtrl.dart';
 import '../models/contacts.dart';
@@ -23,10 +24,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
   void initState() {
     super.initState();
     ctrl.loadCategories();
-
-    if (widget.contact != null) {
-      ctrl.setEditingContact(widget.contact!);
-    }
+    if (widget.contact != null) ctrl.setEditingContact(widget.contact!);
   }
 
   @override
@@ -56,6 +54,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
               const SizedBox(height: 16),
               TextFormField(
                 decoration: _inputDecoration('First Name'),
+                style: inputStyle(),
                 initialValue: ctrl.firstName.value,
                 onSaved: (val) => ctrl.firstName.value = val ?? '',
                 validator: (val) => val!.isEmpty ? 'Enter first name' : null,
@@ -64,12 +63,14 @@ class _CreateContactPageState extends State<CreateContactPage> {
               TextFormField(
                 decoration: _inputDecoration('Last Name'),
                 initialValue: ctrl.lastName.value,
+                style: inputStyle(),
                 onSaved: (val) => ctrl.lastName.value = val ?? '',
                 validator: (val) => val!.isEmpty ? 'Enter last name' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 decoration: _inputDecoration('Email'),
+                style: inputStyle(),
                 keyboardType: TextInputType.emailAddress,
                 initialValue: ctrl.email.value,
                 onSaved: (val) => ctrl.email.value = val ?? '',
@@ -78,6 +79,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
               const SizedBox(height: 16),
               TextFormField(
                 decoration: _inputDecoration('Phone'),
+                style: inputStyle(),
                 keyboardType: TextInputType.phone,
                 initialValue: ctrl.mobile.value,
                 onSaved: (val) => ctrl.mobile.value = val ?? '',
@@ -87,6 +89,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
               Obx(() {
                 return DropdownButtonFormField<String>(
                   decoration: _inputDecoration('Category'),
+                  style: inputStyle(),
                   value: ctrl.selectedCategory.value.isEmpty ? null : ctrl.selectedCategory.value,
                   items: ctrl.categories.map((e) {
                     return DropdownMenuItem(
@@ -113,6 +116,16 @@ class _CreateContactPageState extends State<CreateContactPage> {
 
   InputDecoration _inputDecoration(String label) => InputDecoration(
     labelText: label,
+    labelStyle: GoogleFonts.poppins(
+      fontSize: 16,
+      color: Colors.grey[700],
+    ),
     border: const OutlineInputBorder(),
   );
+
+  TextStyle inputStyle() => GoogleFonts.poppins(
+    fontSize: 17,
+    fontWeight: FontWeight.w500,
+  );
+
 }
