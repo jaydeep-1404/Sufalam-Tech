@@ -100,8 +100,10 @@ class CreateContactCtrl extends GetxController {
           AppSnackbar.success(message: "Contact Saved",title: "Success");
         }
 
+
         clearForm();
         Get.put(ContactController()).loadContacts();
+        FocusManager.instance.primaryFocus?.unfocus();
         Get.offAllNamed(ConstRoute.contacts);
       } else {
         AppSnackbar.warning(message: "Select Image",title: "Warning");

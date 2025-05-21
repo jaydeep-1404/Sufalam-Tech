@@ -75,8 +75,7 @@ class _CreateCategoryPageState extends State<CreateCategoryPage> {
                 ),
                 border: OutlineInputBorder(),
               ),
-              validator: (value) =>
-              value == null || value.trim().isEmpty ? 'Enter name' : null,
+              validator: (value) => value == null || value.trim().isEmpty ? 'Enter name' : null,
             ),
           ),
           const SizedBox(width: 12),

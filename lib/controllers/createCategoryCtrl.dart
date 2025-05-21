@@ -27,12 +27,14 @@ class CreateCategoryCtrl extends GetxController {
 
       if (edtIdx.value == null) {
         await DatabaseHelper().addCategory(CategoryModel(name: name));
+        FocusManager.instance.primaryFocus?.unfocus();
         AppSnackbar.success(message: "Category Created Successfully",title: "Success");
       } else {
         final old = categories[edtIdx.value!];
         await DatabaseHelper().updateCategory(CategoryModel(id: old.id, name: name));
         edtIdx.value = null;
         AppSnackbar.success(message: "Category Updated Successfully",title: "Success");
+        FocusManager.instance.primaryFocus?.unfocus();
       }
 
       txtCtrl.clear();

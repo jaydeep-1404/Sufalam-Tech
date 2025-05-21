@@ -51,6 +51,11 @@ class _ContactListPageState extends State<ContactListPage> {
         elevation: 0,
         title: Obx(() => isSearching.value ? TextField(
           controller: searchCtrl,
+          style: GoogleFonts.poppins(
+            fontSize: 14,
+            color: Colors.white,
+            fontWeight: FontWeight.w500,
+          ),
           decoration: InputDecoration(
               hintText: '  Search by name...',
               border: InputBorder.none,
@@ -58,7 +63,7 @@ class _ContactListPageState extends State<ContactListPage> {
                 fontSize: 14,
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
-              )
+              ),
           ),
           onChanged: (value) => ctrl.searchContacts(value),
         ) : const Text("Contacts")),
