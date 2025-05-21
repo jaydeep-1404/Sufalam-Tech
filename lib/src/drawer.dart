@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'addContact.dart';
 import 'contactList.dart';
 import 'createCategory.dart';
-
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CustomDrawer extends StatelessWidget {
