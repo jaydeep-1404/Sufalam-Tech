@@ -1,0 +1,70 @@
+name: "Build - Android and iOS"
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+
+  set_up_environment:
+    name: "🔧 Set up Environment"
+    runs-on: macos-latest
+
+    steps:
+      - name: "📂 Checkout Repository"
+        uses: actions/checkout@v3
+
+      - name: "☕ Set up Java (Zulu JDK 17)"
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: "🛠️ Set up Flutter (Stable Channel)"
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
+
+      - name: "🛡️ Verify Flutter Installation"
+        run: flutter --version
+
+  build_apk:
+    name: "📱 Build APK"
+    runs-on: macos-latest
+    needs: set_up_environment
+
+    steps:
+      - name: "📂 Checkout Repository"
+        uses: actions/checkout@v3
+
+      - name: "☕ Set up Java (Zulu JDK 17)"
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: "🛠️ Set up Flutter (Stable Channel)"
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          architecture: x64
+
+      - name: "⚙️ Build APK (Release)"
+        run: flutter build apk --release
+
+      - name: "⬆️ Upload APK to GitHub Releases"
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: |
+            build/app/outputs/apk/release/*.apk
+          tag: apk-${{ github.run_number }}-${{ github.sha }}
+          token: ${{ secrets.GITHUB_TOKEN }}
