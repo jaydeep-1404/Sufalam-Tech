@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:sufalam/src/commonWidgets/common.dart';
 import '../controllers/contacts.dart';
-import '../utils/consts.dart';
 import 'addContact.dart';
 import 'drawer.dart';
 
@@ -16,8 +15,8 @@ class ContactListPage extends StatefulWidget {
 }
 
 class _ContactListPageState extends State<ContactListPage> {
-  final ContactController controller = Get.put(ContactController());
-  final TextEditingController searchController = TextEditingController();
+  final controller = Get.put(ContactController());
+  final searchController = TextEditingController();
 
   var isSearching = false.obs;
 
@@ -35,8 +34,6 @@ class _ContactListPageState extends State<ContactListPage> {
     controller.isLoading.value = true;
     super.dispose();
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -176,7 +173,5 @@ class _ContactListPageState extends State<ContactListPage> {
       ),
     );
   }
-
-
 }
 

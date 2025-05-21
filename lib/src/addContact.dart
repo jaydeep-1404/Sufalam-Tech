@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:image_picker/image_picker.dart';
-import 'package:sufalam/utils/consts.dart';
 import '../controllers/addContactCtrl.dart';
 import '../models/contacts.dart';
 import 'drawer.dart';
