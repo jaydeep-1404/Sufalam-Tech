@@ -16,7 +16,7 @@ class CreateCategoryPage extends StatelessWidget {
       appBar: AppBar(
         centerTitle: false,
         elevation: 0,
-        title: const Text('Category Category'),
+        title: const Text('Category'),
       ),
       drawer: const CustomDrawer(),
       body: Column(
