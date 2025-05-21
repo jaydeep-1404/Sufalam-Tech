@@ -81,7 +81,7 @@ class _ContactListPageState extends State<ContactListPage> {
                       "${contact.firstName} ${contact.lastName}",
                       style: GoogleFonts.poppins(
                         fontSize: 16,
-                        color: Colors.grey[700],
+                        color: Colors.black,
                       ),
                     ),
                     trailing: Row(
