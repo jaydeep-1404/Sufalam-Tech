@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sufalam/src/commonWidgets/snackbars.dart';
 import '../models/category.dart';
 import '../utils/database.dart';
 
@@ -26,10 +27,12 @@ class CategoryViewModel extends GetxController {
 
       if (editingIndex.value == null) {
         await DatabaseHelper().insertCategory(CategoryModel(name: name));
+        AppSnackbar.success(message: "Category Created Successfully",title: "Success");
       } else {
         final old = categories[editingIndex.value!];
         await DatabaseHelper().updateCategory(CategoryModel(id: old.id, name: name));
         editingIndex.value = null;
+        AppSnackbar.success(message: "Category Updated Successfully",title: "Success");
       }
 
       textController.clear();
@@ -49,6 +52,7 @@ class CategoryViewModel extends GetxController {
       editingIndex.value = null;
       textController.clear();
     }
+    AppSnackbar.delete(title: "Removed",message: "Category Deleted Successfully");
     loadCategories();
   }
 }

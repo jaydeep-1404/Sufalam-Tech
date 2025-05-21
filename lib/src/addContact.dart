@@ -44,37 +44,43 @@ class _CreateContactPageState extends State<CreateContactPage> {
           child: Column(
             children: [
               Obx(() => GestureDetector(
-                onTap: () => showModalBottomSheet(
-                  context: context,
-                  shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(16))),
-                  builder: (_) => Wrap(
-                    children: [
-                      ListTile(
-                        leading: const Icon(Icons.camera_alt),
-                        title: const Text('Camera'),
-                        onTap: () {
-                          Get.back();
-                          ctrl.pickImage(ImageSource.camera);
-                        },
+                  onTap: () => showModalBottomSheet(
+                    context: context,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+                    ),
+                    builder: (_) => Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          _imageOption(
+                            icon: Icons.camera_alt,
+                            label: 'Camera',
+                            onTap: () {
+                              Get.back();
+                              ctrl.pickImage(ImageSource.camera);
+                            },
+                          ),
+                          _imageOption(
+                            icon: Icons.photo_library,
+                            label: 'Gallery',
+                            onTap: () {
+                              Get.back();
+                              ctrl.pickImage(ImageSource.gallery);
+                            },
+                          ),
+                        ],
                       ),
-                      ListTile(
-                        leading: const Icon(Icons.photo_library),
-                        title: const Text('Gallery'),
-                        onTap: () {
-                          Get.back();
-                          ctrl.pickImage(ImageSource.gallery);
-                        },
-                      ),
-                    ],
+                    ),
                   ),
-                ),
                   child: CircleAvatar(
                     radius: Platform.isAndroid ? 60 : 70,
                     backgroundImage: ctrl.selectedImage.value != null
                         ? FileImage(ctrl.selectedImage.value!)
                         : (widget.contact != null && ctrl.imageBase64.value.isNotEmpty
                         ? MemoryImage(base64Decode(ctrl.imageBase64.value))
-                        : const NetworkImage(emptyProfileImg)) as ImageProvider,
+                        : const NetworkImage("https://cdn-icons-png.flaticon.com/512/149/149071.png")) as ImageProvider,
                   )
               )),
               const SizedBox(height: 16),
@@ -152,5 +158,29 @@ class _CreateContactPageState extends State<CreateContactPage> {
     fontSize: 17,
     fontWeight: FontWeight.w500,
   );
+
+  Widget _imageOption({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 36, color: Colors.black),
+          const SizedBox(height: 8),
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
 }

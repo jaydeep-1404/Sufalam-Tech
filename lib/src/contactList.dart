@@ -77,7 +77,7 @@ class _ContactListPageState extends State<ContactListPage> {
                     leading: CircleAvatar(
                       backgroundImage: img != null && img.isNotEmpty ?
                       MemoryImage(base64Decode(img)) :
-                      const AssetImage(emptyProfileImg) as ImageProvider,
+                      const AssetImage("https://cdn-icons-png.flaticon.com/512/149/149071.png") as ImageProvider,
                     ),
                     title: Text(
                       "${contact.firstName} ${contact.lastName}",

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sufalam/controllers/contacts.dart';
+import 'package:sufalam/src/commonWidgets/snackbars.dart';
 import 'package:sufalam/src/contactList.dart';
 import '../models/category.dart';
 import '../models/contacts.dart';
@@ -73,8 +74,6 @@ class UserFormController extends GetxController {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-
-
       String? base64Image = imageBase64.value;
       if (selectedImage.value != null) {
         final bytes = await selectedImage.value!.readAsBytes();
@@ -92,19 +91,24 @@ class UserFormController extends GetxController {
         imageBase64: base64Image,
       );
 
-      if (isEditMode.value && contact.id != null) {
-        await dbHelper.updateContact(contact);
-        Get.snackbar("Success", "Contact Updated");
+
+      if (base64Image.isNotEmpty){
+        if (isEditMode.value && contact.id != null) {
+          await dbHelper.updateContact(contact);
+          AppSnackbar.success(message: "Contact Updated",title: "Success");
+        } else {
+          await dbHelper.insertContact(contact);
+          AppSnackbar.success(message: "Contact Saved",title: "Success");
+        }
+
+        clearForm();
+        Get.put(ContactController()).loadContacts();
+        Get.off(ContactListPage());
       } else {
-        await dbHelper.insertContact(contact);
-        Get.snackbar("Success", "Contact Saved");
+        AppSnackbar.warning(message: "Select Image",title: "Warning");
       }
 
-      print(selectedCategoryId.value);
-      print(selectedCategory.value);
-      clearForm();
-      Get.put(ContactController()).loadContacts();
-      // Get.off(ContactListPage());
+
     }
   }
 }
