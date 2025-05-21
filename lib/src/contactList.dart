@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sufalam/src/commonWidgets/common.dart';
 import '../controllers/contacts.dart';
+import '../utils/consts.dart';
 import 'addContact.dart';
 import 'drawer.dart';
 
@@ -97,45 +98,41 @@ class _ContactListPageState extends State<ContactListPage> {
       ),
       drawer: const CustomDrawer(),
       body: Obx(() {
-        if (controller.isLoading.value) {
-          return const DataLoader();
-        } else if (controller.filteredContacts.isEmpty) {
-          return const Center(child: Text("No contacts found"));
-        } else {
-          return ListView.builder(
-            itemCount: controller.filteredContacts.length,
-            itemBuilder: (context, index) {
-              final contact = controller.filteredContacts[index];
-              final img = contact.imageBase64;
+        if (controller.isLoading.value) return const DataLoader();
+        if (controller.filteredContacts.isEmpty) return EmptyData(message: "No Contacts Found",);
+        return ListView.builder(
+          itemCount: controller.filteredContacts.length,
+          itemBuilder: (context, index) {
+            final contact = controller.filteredContacts[index];
+            final img = contact.imageBase64;
 
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: img != null && img.isNotEmpty
-                      ? MemoryImage(base64Decode(img))
-                      : const AssetImage('https://cdn-icons-png.flaticon.com/512/149/149071.png')
-                  as ImageProvider,
-                ),
-                title: Text("${contact.firstName} ${contact.lastName}"),
-                subtitle: Text("${contact.phoneNo} • ${contact.categoryName}"),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () {
-                        Get.to(() => CreateContactPage(contact: contact));
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.delete, color: Colors.red),
-                      onPressed: () => controller.deleteContact(contact.id!),
-                    ),
-                  ],
-                ),
-              );
-            },
-          );
-        }
+            return ListTile(
+              leading: CircleAvatar(
+                backgroundImage: img != null && img.isNotEmpty
+                    ? MemoryImage(base64Decode(img))
+                    : const AssetImage(emptyProfileImg)
+                as ImageProvider,
+              ),
+              title: Text("${contact.firstName} ${contact.lastName}"),
+              subtitle: Text("${contact.phoneNo} • ${contact.categoryName}"),
+              trailing: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.edit, color: Colors.blue),
+                    onPressed: () {
+                      Get.to(() => CreateContactPage(contact: contact));
+                    },
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.delete, color: Colors.red),
+                    onPressed: () => controller.deleteContact(contact.id!),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       }),
     );
   }

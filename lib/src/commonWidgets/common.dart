@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class DataLoader extends StatelessWidget {
   const DataLoader({super.key});
@@ -11,14 +12,38 @@ class DataLoader extends StatelessWidget {
 }
 
 class EmptyData extends StatelessWidget {
-  String? message;
+  final String message;
+  final IconData icon;
+  final double iconSize;
+
+  const EmptyData({
+    super.key,
+    this.message = "No Data Found",
+    this.icon = Icons.inbox,
+    this.iconSize = 64,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text(message ?? "No Data found"));
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: iconSize, color: Colors.grey.shade400),
+          const SizedBox(height: 12),
+          Text(
+            message,
+            style: GoogleFonts.poppins(
+              fontSize: 16,
+              color: Colors.grey.shade600,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
-
 
 class CategoryItems extends StatelessWidget {
   final String name;

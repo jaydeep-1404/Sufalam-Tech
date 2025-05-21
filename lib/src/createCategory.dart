@@ -97,7 +97,7 @@ class CreateCategoryPage extends StatelessWidget {
 
   Widget _categories() => Expanded(
     child: Obx(() {
-      if (vm.categories.isEmpty) return const Center(child: Text('No categories'));
+      if (vm.categories.isEmpty) return const EmptyData(message: "No Category Found",);
       return ListView.builder(
         itemCount: vm.categories.length,
         itemBuilder: (context, index) {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sufalam/utils/consts.dart';
 import '../controllers/addContactCtrl.dart';
 import '../models/contacts.dart';
 import 'drawer.dart';
@@ -49,8 +50,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                         ? FileImage(ctrl.selectedImage.value!)
                         : (widget.contact != null && ctrl.imageBase64.value.isNotEmpty
                         ? MemoryImage(base64Decode(ctrl.imageBase64.value))
-                        : const NetworkImage(
-                        'https://cdn-icons-png.flaticon.com/512/149/149071.png')) as ImageProvider,
+                        : const NetworkImage(emptyProfileImg)) as ImageProvider,
                   )
               )),
               const SizedBox(height: 16),
