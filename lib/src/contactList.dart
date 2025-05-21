@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:sufalam/src/commonWidgets/common.dart';
-import 'package:sufalam/src/commonWidgets/snackbars.dart';
 import '../controllers/contacts.dart';
 import 'addContact.dart';
 import 'drawer.dart';
@@ -16,23 +15,24 @@ class ContactListPage extends StatefulWidget {
 }
 
 class _ContactListPageState extends State<ContactListPage> {
-  final controller = Get.put(ContactController());
-  final searchController = TextEditingController();
-
+  final ctrl = Get.put(ContactController());
+  final searchCtrl = TextEditingController();
   var isSearching = false.obs;
 
   @override
   void initState() {
-    controller.loadContacts();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      ctrl.loadContacts();
+    });
     super.initState();
   }
 
   @override
   void dispose() {
-    searchController.dispose();
-    controller.contacts.clear();
-    controller.filteredContacts.clear();
-    controller.isLoading.value = true;
+    searchCtrl.dispose();
+    ctrl.contacts.clear();
+    ctrl.filteredContacts.clear();
+    ctrl.loading.value = true;
     super.dispose();
   }
 
@@ -42,7 +42,7 @@ class _ContactListPageState extends State<ContactListPage> {
       appBar: AppBar(
         elevation: 0,
         title: Obx(() => isSearching.value ? TextField(
-          controller: searchController,
+          controller: searchCtrl,
           decoration: InputDecoration(
               hintText: '  Search by name...',
               border: InputBorder.none,
@@ -52,19 +52,19 @@ class _ContactListPageState extends State<ContactListPage> {
                 fontWeight: FontWeight.w500,
               )
           ),
-          onChanged: (value) => controller.searchContacts(value),
+          onChanged: (value) => ctrl.searchContacts(value),
         ) : const Text("Contacts")),
         actions: _filterSorting(),
       ),
       drawer: const CustomDrawer(),
       body: Obx(() {
-        if (controller.isLoading.value) return const DataLoader();
-        if (controller.filteredContacts.isEmpty) return EmptyData(message: "No Contacts Found",);
+        if (ctrl.loading.value) return const DataLoader();
+        if (ctrl.filteredContacts.isEmpty) return EmptyData(message: "No Contacts Found",);
         return ListView.builder(
           padding: EdgeInsets.symmetric(vertical: 10),
-          itemCount: controller.filteredContacts.length,
+          itemCount: ctrl.filteredContacts.length,
           itemBuilder: (context, index) {
-            final contact = controller.filteredContacts[index];
+            final contact = ctrl.filteredContacts[index];
             final img = contact.imageBase64;
 
             return Padding(
@@ -96,7 +96,7 @@ class _ContactListPageState extends State<ContactListPage> {
                         IconButton(
                           icon: const Icon(Icons.delete, color: Colors.redAccent),
                           onPressed: () {
-                            controller.deleteContact(contact.id!);
+                            ctrl.deleteContact(contact.id!);
                           },
                         ),
                       ],
@@ -119,8 +119,8 @@ class _ContactListPageState extends State<ContactListPage> {
       )),
       onPressed: () {
         if (isSearching.value) {
-          searchController.clear();
-          controller.searchContacts('');
+          searchCtrl.clear();
+          ctrl.searchContacts('');
         }
         isSearching.toggle();
       },
@@ -142,7 +142,7 @@ class _ContactListPageState extends State<ContactListPage> {
             Expanded(
               child: InkWell(
                 onTap: () {
-                  controller.sortByCategory(ascending: true);
+                  ctrl.sortByCat(ascending: true);
                   Get.back();
                 },
                 child: Column(
@@ -158,7 +158,7 @@ class _ContactListPageState extends State<ContactListPage> {
             Expanded(
               child: InkWell(
                 onTap: () {
-                  controller.sortByCategory(ascending: false);
+                  ctrl.sortByCat(ascending: false);
                   Get.back();
                 },
                 child: const Column(

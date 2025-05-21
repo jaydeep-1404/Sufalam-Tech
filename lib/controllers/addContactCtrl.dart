@@ -11,36 +11,36 @@ import '../models/contacts.dart';
 import '../utils/database.dart';
 
 
-class UserFormController extends GetxController {
+class CreateContactCtrl extends GetxController {
   final formKey = GlobalKey<FormState>();
   final dbHelper = DatabaseHelper();
 
-  final firstName = ''.obs;
-  final lastName = ''.obs;
-  final email = ''.obs;
-  final mobile = ''.obs;
-  final selectedCategory = ''.obs;
-  final selectedCategoryId = 0.obs;
+  final firstName = ''.obs,
+      lastName = ''.obs,
+      email = ''.obs,
+      mobile = ''.obs,
+      selCat = ''.obs,
+      selCatId = 0.obs;
 
   final selectedImage = Rx<File?>(null);
-  final imageBase64 = ''.obs;
+  final img = ''.obs;
 
   final categories = <CategoryModel>[].obs;
 
-  final isEditMode = false.obs;
+  final isEdit = false.obs;
   ContactModel? editingContact;
 
   void setEditingContact(ContactModel contact) {
-    isEditMode.value = true;
+    isEdit.value = true;
     editingContact = contact;
 
     firstName.value = contact.firstName;
     lastName.value = contact.lastName;
     email.value = contact.email ?? '';
     mobile.value = contact.phoneNo;
-    selectedCategory.value = contact.categoryName;
-    selectedCategoryId.value = contact.categoryId;
-    imageBase64.value = contact.imageBase64 ?? '';
+    selCat.value = contact.categoryName;
+    selCatId.value = contact.categoryId;
+    img.value = contact.imageBase64 ?? '';
   }
 
   void clearForm() {
@@ -49,20 +49,20 @@ class UserFormController extends GetxController {
     lastName.value = '';
     email.value = '';
     mobile.value = '';
-    selectedCategory.value = '';
-    selectedCategoryId.value = 0;
+    selCat.value = '';
+    selCatId.value = 0;
     selectedImage.value = null;
-    imageBase64.value = '';
-    isEditMode.value = false;
+    img.value = '';
+    isEdit.value = false;
     editingContact = null;
   }
 
-  Future<void> loadCategories() async {
+  Future<void> loadCats() async {
     final data = await dbHelper.getCategories();
     categories.assignAll(data);
   }
 
-  Future<void> pickImage(ImageSource source) async {
+  Future<void> pickImg(ImageSource source) async {
     final picker = ImagePicker();
     final XFile? picked = await picker.pickImage(source: source, imageQuality: 60);
     if (picked != null) {
@@ -74,7 +74,7 @@ class UserFormController extends GetxController {
     if (formKey.currentState!.validate()) {
       formKey.currentState!.save();
 
-      String? base64Image = imageBase64.value;
+      String? base64Image = img.value;
       if (selectedImage.value != null) {
         final bytes = await selectedImage.value!.readAsBytes();
         base64Image = base64Encode(bytes);
@@ -86,18 +86,17 @@ class UserFormController extends GetxController {
         lastName: lastName.value,
         email: email.value,
         phoneNo: mobile.value,
-        categoryId: selectedCategoryId.value,
-        categoryName: selectedCategory.value,
+        categoryId: selCatId.value,
+        categoryName: selCat.value,
         imageBase64: base64Image,
       );
 
-
       if (base64Image.isNotEmpty){
-        if (isEditMode.value && contact.id != null) {
+        if (isEdit.value && contact.id != null) {
           await dbHelper.updateContact(contact);
           AppSnackbar.success(message: "Contact Updated",title: "Success");
         } else {
-          await dbHelper.insertContact(contact);
+          await dbHelper.addContact(contact);
           AppSnackbar.success(message: "Contact Saved",title: "Success");
         }
 

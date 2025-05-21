@@ -6,7 +6,7 @@ import 'commonWidgets/common.dart';
 import 'drawer.dart';
 
 class CreateCategoryPage extends StatelessWidget {
-  final vm = Get.put(CategoryViewModel());
+  final vm = Get.put(CreateCategoryCtrl());
 
   CreateCategoryPage({super.key});
 
@@ -38,7 +38,7 @@ class CreateCategoryPage extends StatelessWidget {
         children: [
           Expanded(
             child: TextFormField(
-              controller: vm.textController,
+              controller: vm.txtCtrl,
               style: GoogleFonts.poppins(
                 fontSize: 17,
                 fontWeight: FontWeight.w500,
@@ -57,9 +57,9 @@ class CreateCategoryPage extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Obx(() {
-            final isEditing = vm.editingIndex.value != null;
+            final isEditing = vm.edtIdx.value != null;
             return ElevatedButton(
-              onPressed: vm.saveCategory,
+              onPressed: vm.saveCat,
               child: Text(isEditing ? 'Update' : 'Add'),
             );
           }),
@@ -69,8 +69,8 @@ class CreateCategoryPage extends StatelessWidget {
   );
 
   Widget _editItemView() => Obx(() {
-    if (vm.editingIndex.value != null) {
-      final selected = vm.categories[vm.editingIndex.value!];
+    if (vm.edtIdx.value != null) {
+      final selected = vm.categories[vm.edtIdx.value!];
       return Container(
         margin: const EdgeInsets.only(bottom: 8,left: 10,right: 10),
         padding: const EdgeInsets.symmetric(vertical: 2,horizontal: 10),
@@ -92,8 +92,8 @@ class CreateCategoryPage extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.cancel, color: Colors.red),
               onPressed: () {
-                vm.editingIndex.value = null;
-                vm.textController.clear();
+                vm.edtIdx.value = null;
+                vm.txtCtrl.clear();
               },
             ),
           ],
@@ -112,8 +112,8 @@ class CreateCategoryPage extends StatelessWidget {
           final category = vm.categories[index];
           return CategoryItems(
             name: category.name,
-            onEdit: () => vm.editCategory(index),
-            onDelete: () => vm.deleteCategory(index),
+            onEdit: () => vm.updCat(index),
+            onDelete: () => vm.rmCat(index),
           );
         },
       );

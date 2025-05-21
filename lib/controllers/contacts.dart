@@ -8,14 +8,14 @@ class ContactController extends GetxController {
 
   var contacts = <ContactModel>[].obs;
   var filteredContacts = <ContactModel>[].obs;
-  var isLoading = true.obs;
+  var loading = true.obs;
 
   void loadContacts() async {
-    isLoading.value = true;
+    loading(true);
     final data = await _dbHelper.getContacts();
     contacts.assignAll(data);
     filteredContacts.assignAll(data);
-    isLoading.value = false;
+    loading(false);
   }
 
   void searchContacts(String query) {
@@ -30,7 +30,7 @@ class ContactController extends GetxController {
     }
   }
 
-  void sortByCategory({required bool ascending}) {
+  void sortByCat({required bool ascending}) {
     final sorted = List<ContactModel>.from(filteredContacts);
     sorted.sort((a, b) => ascending
         ? a.categoryName.compareTo(b.categoryName)

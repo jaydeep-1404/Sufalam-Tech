@@ -52,7 +52,7 @@ class DatabaseHelper {
   }
 
  /// Category
-  Future<int> insertCategory(CategoryModel category) async {
+  Future<int> addCategory(CategoryModel category) async {
     final db = await database;
     return await db.insert(categoryTable, category.toMap());
   }
@@ -84,7 +84,7 @@ class DatabaseHelper {
 
 
   /// Contacts
-  Future<int> insertContact(ContactModel contact) async {
+  Future<int> addContact(ContactModel contact) async {
     final db = await database;
     return await db.insert(contactTable, contact.toMap());
   }

@@ -18,12 +18,12 @@ class CreateContactPage extends StatefulWidget {
 }
 
 class _CreateContactPageState extends State<CreateContactPage> {
-  final ctrl = Get.put(UserFormController());
+  final ctrl = Get.put(CreateContactCtrl());
 
   @override
   void initState() {
     super.initState();
-    ctrl.loadCategories();
+    ctrl.loadCats();
     if (widget.contact != null) ctrl.setEditingContact(widget.contact!);
   }
 
@@ -34,7 +34,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
       appBar: AppBar(
         centerTitle: false,
         elevation: 0,
-        title: Text(ctrl.isEditMode.value ? 'Edit Contact' : 'Add Contact'),
+        title: Text(ctrl.isEdit.value ? 'Edit Contact' : 'Add Contact'),
       ),
       body: Form(
         key: ctrl.formKey,
@@ -82,22 +82,22 @@ class _CreateContactPageState extends State<CreateContactPage> {
                 return DropdownButtonFormField<String>(
                   decoration: _inputDecoration('Category'),
                   style: inputStyle(),
-                  value: ctrl.selectedCategory.value.isEmpty ? null : ctrl.selectedCategory.value,
+                  value: ctrl.selCat.value.isEmpty ? null : ctrl.selCat.value,
                   items: ctrl.categories.map((e) {
                     return DropdownMenuItem(
                       value: e.name,
                       child: Text(e.name,style: TextStyle(color: Colors.black),),
-                      onTap: () => ctrl.selectedCategoryId.value = e.id!,
+                      onTap: () => ctrl.selCatId.value = e.id!,
                     );
                   }).toList(),
-                  onChanged: (val) => ctrl.selectedCategory.value = val!,
+                  onChanged: (val) => ctrl.selCat.value = val!,
                   validator: (val) => val == null || val.isEmpty ? 'Select category' : null,
                 );
               }),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: ctrl.submitForm,
-                child: Text(ctrl.isEditMode.value ? 'Update Contact' : 'Save Contact'),
+                child: Text(ctrl.isEdit.value ? 'Update Contact' : 'Save Contact'),
               ),
             ],
           ),
@@ -122,7 +122,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                 label: 'Camera',
                 onTap: () {
                   Get.back();
-                  ctrl.pickImage(ImageSource.camera);
+                  ctrl.pickImg(ImageSource.camera);
                 },
               ),
               _imageOption(
@@ -130,7 +130,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                 label: 'Gallery',
                 onTap: () {
                   Get.back();
-                  ctrl.pickImage(ImageSource.gallery);
+                  ctrl.pickImg(ImageSource.gallery);
                 },
               ),
             ],
@@ -141,8 +141,8 @@ class _CreateContactPageState extends State<CreateContactPage> {
         radius: Platform.isAndroid ? 60 : 70,
         backgroundImage: ctrl.selectedImage.value != null
             ? FileImage(ctrl.selectedImage.value!)
-            : (widget.contact != null && ctrl.imageBase64.value.isNotEmpty
-            ? MemoryImage(base64Decode(ctrl.imageBase64.value))
+            : (widget.contact != null && ctrl.img.value.isNotEmpty
+            ? MemoryImage(base64Decode(ctrl.img.value))
             : const NetworkImage("https://cdn-icons-png.flaticon.com/512/149/149071.png")) as ImageProvider,
       )
   ));
