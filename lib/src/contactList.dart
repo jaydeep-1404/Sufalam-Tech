@@ -1,16 +1,31 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:sufalam/models/contacts.dart' show ContactModel;
 import '../controllers/contacts.dart';
-import '../db/sql_service.dart';
 import 'drawer.dart';
 
-class ContactListPage extends StatelessWidget {
+class ContactListPage extends StatefulWidget {
   ContactListPage({super.key});
 
+  @override
+  State<ContactListPage> createState() => _ContactListPageState();
+}
+
+class _ContactListPageState extends State<ContactListPage> {
   final ContactController controller = Get.put(ContactController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    controller.loadContacts();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

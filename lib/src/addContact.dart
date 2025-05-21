@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/addContactCtrl.dart';
@@ -42,7 +44,7 @@ class _UserFormPageState extends State<UserFormPage> {
               Obx(() => GestureDetector(
                 onTap: () => controller.showImagePickerOptions(context),
                 child: CircleAvatar(
-                  radius: 70,
+                  radius: Platform.isAndroid ? 60 : 70,
                   backgroundImage: controller.selectedImage.value != null
                       ? FileImage(controller.selectedImage.value!)
                       : const NetworkImage(
@@ -69,7 +71,7 @@ class _UserFormPageState extends State<UserFormPage> {
                 onSaved: (val) => controller.email.value = val ?? '',
                 validator: (val) {
                   if (val!.isEmpty) return 'Enter Email';
-                  if (!GetUtils.isEmail(val)) return 'Enter valid email';
+                  // if (!GetUtils.isEmail(val)) return 'Enter valid email';
                   return null;
                 },
               ),
