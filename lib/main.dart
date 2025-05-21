@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:sufalam/src/contactList.dart';
 import 'package:sufalam/utils/routes.dart';
 
 void main() => runZonedGuarded(() => runApp(const MyApp()), (e, s) => log("$e, $s"),);
