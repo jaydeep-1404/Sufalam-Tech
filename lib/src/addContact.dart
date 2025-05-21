@@ -32,6 +32,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
     return Scaffold(
       drawer: const CustomDrawer(),
       appBar: AppBar(
+        centerTitle: false,
         title: Text(ctrl.isEditMode.value ? 'Edit Contact' : 'Add Contact'),
       ),
       body: Form(

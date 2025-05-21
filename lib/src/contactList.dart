@@ -67,34 +67,15 @@ class _ContactListPageState extends State<ContactListPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Obx(() => isSearching.value
-            ? TextField(
+        title: Obx(() => isSearching.value ? TextField(
           controller: searchController,
           decoration: const InputDecoration(
-            hintText: 'Search by name...',
+            hintText: '  Search by name...',
             border: InputBorder.none,
           ),
           onChanged: (value) => controller.searchContacts(value),
-        )
-            : const Text("Contacts")),
-        actions: [
-          IconButton(
-            icon: Obx(() => Icon(
-              isSearching.value ? Icons.close : Icons.search,
-            )),
-            onPressed: () {
-              if (isSearching.value) {
-                searchController.clear();
-                controller.searchContacts('');
-              }
-              isSearching.toggle();
-            },
-          ),
-          IconButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: _showSortOptions,
-          ),
-        ],
+        ) : const Text("Contacts")),
+        actions: _filterSorting(),
       ),
       drawer: const CustomDrawer(),
       body: Obx(() {
@@ -108,10 +89,7 @@ class _ContactListPageState extends State<ContactListPage> {
 
             return ListTile(
               leading: CircleAvatar(
-                backgroundImage: img != null && img.isNotEmpty
-                    ? MemoryImage(base64Decode(img))
-                    : const AssetImage(emptyProfileImg)
-                as ImageProvider,
+                backgroundImage: img != null && img.isNotEmpty ? MemoryImage(base64Decode(img)) : const AssetImage(emptyProfileImg) as ImageProvider,
               ),
               title: Text("${contact.firstName} ${contact.lastName}"),
               subtitle: Text("${contact.phoneNo} • ${contact.categoryName}"),
@@ -120,9 +98,7 @@ class _ContactListPageState extends State<ContactListPage> {
                 children: [
                   IconButton(
                     icon: const Icon(Icons.edit, color: Colors.blue),
-                    onPressed: () {
-                      Get.to(() => CreateContactPage(contact: contact));
-                    },
+                    onPressed: () => Get.to(() => CreateContactPage(contact: contact)),
                   ),
                   IconButton(
                     icon: const Icon(Icons.delete, color: Colors.red),
@@ -136,5 +112,25 @@ class _ContactListPageState extends State<ContactListPage> {
       }),
     );
   }
+
+  List<IconButton> _filterSorting() => [
+    IconButton(
+      icon: Obx(() => Icon(
+        isSearching.value ? Icons.close : Icons.search,
+      )),
+      onPressed: () {
+        if (isSearching.value) {
+          searchController.clear();
+          controller.searchContacts('');
+        }
+        isSearching.toggle();
+      },
+    ),
+    IconButton(
+      icon: const Icon(Icons.filter_list),
+      onPressed: _showSortOptions,
+    ),
+  ];
+
 }
 
