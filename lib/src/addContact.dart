@@ -120,7 +120,7 @@ class _CreateContactPageState extends State<CreateContactPage> {
                   items: ctrl.categories.map((e) {
                     return DropdownMenuItem(
                       value: e.name,
-                      child: Text(e.name),
+                      child: Text(e.name,style: TextStyle(color: Colors.black),),
                       onTap: () => ctrl.selectedCategoryId.value = e.id!,
                     );
                   }).toList(),
@@ -144,7 +144,6 @@ class _CreateContactPageState extends State<CreateContactPage> {
     labelText: label,
     labelStyle: GoogleFonts.poppins(
       fontSize: 16,
-      color: Colors.grey[700],
     ),
     border: const OutlineInputBorder(),
   );
