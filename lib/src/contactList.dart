@@ -27,6 +27,9 @@ class _ContactListPageState extends State<ContactListPage> {
   @override
   void dispose() {
     searchController.dispose();
+    controller.contacts.clear();
+    controller.filteredContacts.clear();
+    controller.isLoading.value = true;
     super.dispose();
   }
 
@@ -118,9 +121,7 @@ class _ContactListPageState extends State<ContactListPage> {
                   children: [
                     IconButton(
                       icon: const Icon(Icons.edit, color: Colors.blue),
-                      onPressed: () {
-                        Get.to(UserFormPage());
-                      },
+                      onPressed: () {},
                     ),
                     IconButton(
                       icon: const Icon(Icons.delete, color: Colors.red),
@@ -136,3 +137,4 @@ class _ContactListPageState extends State<ContactListPage> {
     );
   }
 }
+

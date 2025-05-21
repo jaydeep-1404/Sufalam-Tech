@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import '../controllers/createCategoryCtrl.dart';
 import 'drawer.dart';
 
-class CategoryPage extends StatelessWidget {
+class CreateCategoryPage extends StatelessWidget {
   final vm = Get.put(CategoryViewModel());
 
-  CategoryPage({super.key});
+  CreateCategoryPage({super.key});
 
   @override
   Widget build(BuildContext context) {
