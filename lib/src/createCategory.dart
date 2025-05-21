@@ -11,14 +11,43 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Category Manager')),
+      appBar: AppBar(
+        centerTitle: false,
+        title: const Text('Category Category'),
+      ),
       drawer: const CustomDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// Edit Info Banner
+            Form(
+              key: vm.formKey,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      controller: vm.textController,
+                      decoration: const InputDecoration(
+                        labelText: 'Category name',
+                        border: OutlineInputBorder(),
+                      ),
+                      validator: (value) =>
+                      value == null || value.trim().isEmpty ? 'Enter name' : null,
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Obx(() {
+                    final isEditing = vm.editingIndex.value != null;
+                    return ElevatedButton(
+                      onPressed: vm.saveCategory,
+                      child: Text(isEditing ? 'Update' : 'Add'),
+                    );
+                  }),
+                ],
+              ),
+            ),
+            const SizedBox(height: 10),
             Obx(() {
               if (vm.editingIndex.value != null) {
                 final selected = vm.categories[vm.editingIndex.value!];
@@ -53,37 +82,7 @@ class CategoryPage extends StatelessWidget {
               }
               return const SizedBox.shrink();
             }),
-
-            /// Input Form
-            Form(
-              key: vm.formKey,
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: vm.textController,
-                      decoration: const InputDecoration(
-                        labelText: 'Category name',
-                        border: OutlineInputBorder(),
-                      ),
-                      validator: (value) =>
-                      value == null || value.trim().isEmpty ? 'Enter name' : null,
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Obx(() {
-                    final isEditing = vm.editingIndex.value != null;
-                    return ElevatedButton(
-                      onPressed: vm.saveCategory,
-                      child: Text(isEditing ? 'Update' : 'Add'),
-                    );
-                  }),
-                ],
-              ),
-            ),
             const SizedBox(height: 20),
-
-            /// List of Categories
             Expanded(
               child: Obx(() {
                 if (vm.categories.isEmpty) {
@@ -96,16 +95,17 @@ class CategoryPage extends StatelessWidget {
                     final isSelected = vm.editingIndex.value == index;
 
                     return Card(
-                      color: isSelected ? Colors.yellow.shade100 : null,
                       child: ListTile(
                         title: Text(category.name),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            const VerticalDivider(indent: 10,endIndent: 10,),
                             IconButton(
                               icon: const Icon(Icons.edit, color: Colors.blue),
                               onPressed: () => vm.editCategory(index),
                             ),
+                            const VerticalDivider(indent: 10,endIndent: 10,),
                             IconButton(
                               icon: const Icon(Icons.delete, color: Colors.red),
                               onPressed: () => vm.deleteCategory(index),

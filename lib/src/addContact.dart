@@ -3,26 +3,46 @@ import 'package:get/get.dart';
 import '../controllers/addContactCtrl.dart';
 import 'drawer.dart';
 
-class UserFormPage extends StatelessWidget {
+class UserFormPage extends StatefulWidget {
+  const UserFormPage({super.key});
+
+  @override
+  State<UserFormPage> createState() => _UserFormPageState();
+}
+
+class _UserFormPageState extends State<UserFormPage> {
   final controller = Get.put(UserFormController());
 
-  UserFormPage({super.key});
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: const CustomDrawer(),
-      appBar: AppBar(title: const Text('Contact Form')),
+      appBar: AppBar(
+        centerTitle: false,
+        title: const Text('Contact Form'),
+      ),
       body: Form(
         key: controller.formKey,
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
           child: Column(
             children: [
               Obx(() => GestureDetector(
                 onTap: () => controller.showImagePickerOptions(context),
                 child: CircleAvatar(
-                  radius: 50,
+                  radius: 70,
                   backgroundImage: controller.selectedImage.value != null
                       ? FileImage(controller.selectedImage.value!)
                       : const NetworkImage(
@@ -47,6 +67,11 @@ class UserFormPage extends StatelessWidget {
                 decoration: _inputDecoration('Email'),
                 keyboardType: TextInputType.emailAddress,
                 onSaved: (val) => controller.email.value = val ?? '',
+                validator: (val) {
+                  if (val!.isEmpty) return 'Enter Email';
+                  if (!GetUtils.isEmail(val)) return 'Enter valid email';
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -66,11 +91,14 @@ class UserFormPage extends StatelessWidget {
                     return DropdownMenuItem(
                       value: e.name,
                       child: Text(e.name),
-                      onTap: () => controller.selectedCategoryId.value = e.id!,
+                      onTap: () =>
+                      controller.selectedCategoryId.value = e.id!,
                     );
                   }).toList(),
-                  onChanged: (val) => controller.selectedCategory.value = val!,
-                  validator: (val) => val == null || val.isEmpty ? 'Select category' : null,
+                  onChanged: (val) =>
+                  controller.selectedCategory.value = val!,
+                  validator: (val) =>
+                  val == null || val.isEmpty ? 'Select category' : null,
                 );
               }),
               const SizedBox(height: 24),
@@ -89,5 +117,4 @@ class UserFormPage extends StatelessWidget {
     labelText: label,
     border: const OutlineInputBorder(),
   );
-
 }

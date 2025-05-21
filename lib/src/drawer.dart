@@ -24,16 +24,19 @@ class CustomDrawer extends StatelessWidget {
             title: const Text('Add Category'),
             onTap: () => Get.off(() => CategoryPage()),
           ),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.category),
             title: const Text('Add Contacts'),
             onTap: () => Get.off(() => UserFormPage()),
           ),
+          const Divider(),
           ListTile(
             leading: const Icon(Icons.contacts),
             title: const Text('Contact List'),
             onTap: () => Get.off(() => ContactListPage()),
           ),
+          const Divider(),
         ],
       ),
     );

@@ -15,7 +15,10 @@ class ContactListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Contacts")),
+      appBar: AppBar(
+        centerTitle: false,
+        title: const Text("Contacts"),
+      ),
       drawer: const CustomDrawer(),
       body: Obx(() {
         if (controller.isLoading.value) {

@@ -16,8 +16,10 @@ class MyApp extends StatelessWidget {
       title: 'Sufalam Tech',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        useMaterial3: false
+        useMaterial3: false,
+
       ),
+
       home: ContactListPage(),
     );
   }
