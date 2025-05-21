@@ -66,7 +66,11 @@ class _CreateContactPageState extends State<CreateContactPage> {
                 keyboardType: TextInputType.emailAddress,
                 initialValue: ctrl.email.value,
                 onSaved: (val) => ctrl.email.value = val ?? '',
-                validator: (val) => val!.isEmpty ? 'Enter email' : null,
+                validator: (val) {
+                  if (val!.isEmpty) return 'Enter email';
+                  if (val.isNotEmpty && !GetUtils.isEmail(val)) return 'Enter valid email';
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               TextFormField(
