@@ -29,7 +29,6 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: RoutePage.intl,
       getPages: RoutePage.routes,
-      // home: ContactListPage(),
     );
   }
 }
