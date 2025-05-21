@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:image_picker/image_picker.dart';
+import 'package:sufalam/utils/pageLifecycle.dart';
 import '../controllers/addContactCtrl.dart';
 import '../models/contacts.dart';
 import 'drawer.dart';
@@ -19,12 +20,24 @@ class CreateContactPage extends StatefulWidget {
 
 class _CreateContactPageState extends State<CreateContactPage> {
   final ctrl = Get.put(CreateContactCtrl());
+  late AppLifecycleHandler _lc;
 
   @override
   void initState() {
     super.initState();
     ctrl.loadCats();
     if (widget.contact != null) ctrl.setEditingContact(widget.contact!);
+    _lc = AppLifecycleHandler(
+      onResumed: () {},
+      onInactive: () {},
+      onPaused: () {},
+    );
+  }
+
+  @override
+  void dispose() {
+    _lc.dispose();
+    super.dispose();
   }
 
   @override

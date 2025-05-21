@@ -11,7 +11,7 @@ class ConstRoute {
 }
 
 class RoutePage {
-  static const initial = ConstRoute.contacts;
+  static const intl = ConstRoute.contacts;
   static List<GetPage> routes = [
     GetPage(name: ConstRoute.contacts, transitionDuration: Duration(milliseconds: 100), page: () => ContactListPage()),
     GetPage(name: ConstRoute.categoryCreate, transitionDuration: Duration(milliseconds: 100), page: () => CreateCategoryPage(),),

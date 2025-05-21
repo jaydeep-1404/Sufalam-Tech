@@ -1,14 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
+import 'package:sufalam/utils/pageLifecycle.dart';
 import '../controllers/createCategoryCtrl.dart';
 import 'commonWidgets/common.dart';
 import 'drawer.dart';
 
-class CreateCategoryPage extends StatelessWidget {
-  final vm = Get.put(CreateCategoryCtrl());
+class CreateCategoryPage extends StatefulWidget {
 
   CreateCategoryPage({super.key});
+
+  @override
+  State<CreateCategoryPage> createState() => _CreateCategoryPageState();
+}
+
+class _CreateCategoryPageState extends State<CreateCategoryPage> {
+  final vm = Get.put(CreateCategoryCtrl());
+  late AppLifecycleHandler _lc;
+
+  @override
+  void initState() {
+    _lc = AppLifecycleHandler(
+      onResumed: () {},
+      onInactive: () {},
+      onPaused: () {},
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _lc.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -119,5 +143,4 @@ class CreateCategoryPage extends StatelessWidget {
       );
     }),
   );
-
 }

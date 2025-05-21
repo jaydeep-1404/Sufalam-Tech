@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 import 'package:sufalam/src/commonWidgets/common.dart';
+import 'package:sufalam/utils/pageLifecycle.dart';
 import '../controllers/contacts.dart';
 import 'addContact.dart';
 import 'drawer.dart';
@@ -18,12 +19,18 @@ class _ContactListPageState extends State<ContactListPage> {
   final ctrl = Get.put(ContactController());
   final searchCtrl = TextEditingController();
   var isSearching = false.obs;
+  late AppLifecycleHandler _lc;
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       ctrl.loadContacts();
     });
+    _lc = AppLifecycleHandler(
+      onResumed: () {},
+      onInactive: () {},
+      onPaused: () {},
+    );
     super.initState();
   }
 
@@ -33,6 +40,7 @@ class _ContactListPageState extends State<ContactListPage> {
     ctrl.contacts.clear();
     ctrl.filteredContacts.clear();
     ctrl.loading.value = true;
+    _lc.dispose();
     super.dispose();
   }
 

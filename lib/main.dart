@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
           selectionHandleColor: Colors.transparent,
         ),
       ),
-      initialRoute: RoutePage.initial,
+      initialRoute: RoutePage.intl,
       getPages: RoutePage.routes,
       // home: ContactListPage(),
     );
