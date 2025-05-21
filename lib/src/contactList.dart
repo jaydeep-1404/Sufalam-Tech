@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../controllers/contacts.dart';
+import 'addContact.dart';
 import 'drawer.dart';
 
 class ContactListPage extends StatefulWidget {
@@ -13,38 +14,94 @@ class ContactListPage extends StatefulWidget {
 
 class _ContactListPageState extends State<ContactListPage> {
   final ContactController controller = Get.put(ContactController());
+  final TextEditingController searchController = TextEditingController();
+
+  var isSearching = false.obs;
 
   @override
   void initState() {
-    // TODO: implement initState
     controller.loadContacts();
     super.initState();
   }
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    searchController.dispose();
     super.dispose();
+  }
+
+  void _showSortOptions() {
+    Get.bottomSheet(
+      Container(
+        color: Colors.white,
+        child: Wrap(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.arrow_upward),
+              title: const Text("Sort by Category Ascending"),
+              onTap: () {
+                controller.sortByCategory(ascending: true);
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.arrow_downward),
+              title: const Text("Sort by Category Descending"),
+              onTap: () {
+                controller.sortByCategory(ascending: false);
+                Get.back();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
-        title: const Text("Contacts"),
+        title: Obx(() => isSearching.value
+            ? TextField(
+          controller: searchController,
+          decoration: const InputDecoration(
+            hintText: 'Search by name...',
+            border: InputBorder.none,
+          ),
+          onChanged: (value) => controller.searchContacts(value),
+        )
+            : const Text("Contacts")),
+        actions: [
+          IconButton(
+            icon: Obx(() => Icon(
+              isSearching.value ? Icons.close : Icons.search,
+            )),
+            onPressed: () {
+              if (isSearching.value) {
+                searchController.clear();
+                controller.searchContacts('');
+              }
+              isSearching.toggle();
+            },
+          ),
+          IconButton(
+            icon: const Icon(Icons.filter_list),
+            onPressed: _showSortOptions,
+          ),
+        ],
       ),
       drawer: const CustomDrawer(),
       body: Obx(() {
         if (controller.isLoading.value) {
           return const Center(child: CircularProgressIndicator());
-        } else if (controller.contacts.isEmpty) {
+        } else if (controller.filteredContacts.isEmpty) {
           return const Center(child: Text("No contacts found"));
         } else {
           return ListView.builder(
-            itemCount: controller.contacts.length,
+            itemCount: controller.filteredContacts.length,
             itemBuilder: (context, index) {
-              final contact = controller.contacts[index];
+              final contact = controller.filteredContacts[index];
               final img = contact.imageBase64;
 
               return ListTile(
@@ -62,7 +119,7 @@ class _ContactListPageState extends State<ContactListPage> {
                     IconButton(
                       icon: const Icon(Icons.edit, color: Colors.blue),
                       onPressed: () {
-                        // TODO: Edit contact
+                        Get.to(UserFormPage());
                       },
                     ),
                     IconButton(
